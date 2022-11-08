@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { CreateBatlle, Home } from "./page";
+import { CreateBatlle, Home, JoinBattle } from "./page";
 import { GlobalContextProvider } from "./context";
 import "./index.css";
 
@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-battle" element={<CreateBatlle />} />
+        <Route path="/join-battle" element={<JoinBattle />} />
       </Routes>
     </GlobalContextProvider>
   </BrowserRouter>
