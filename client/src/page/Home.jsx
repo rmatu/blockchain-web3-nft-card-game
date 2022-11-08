@@ -3,8 +3,33 @@ import { CustomInput, PageHOC, CustomButton } from "../components";
 import { useGlobalContext } from "../context";
 
 const Home = () => {
-  const { contract, walletAddress } = useGlobalContext();
+  const { contract, walletAddress, setShowAlert } = useGlobalContext();
   const [playerName, setPlayerName] = useState();
+
+  console.log(contract);
+
+  const handleClick = async () => {
+    try {
+      const playerExists = await contract.isPlayer(walletAddress);
+
+      if (!playerExists) {
+        await contract.registerPlayer(playerName, playerName);
+
+        setShowAlert({
+          status: true,
+          type: "info",
+          message: `${playerName} is being summoned!`,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      setShowAlert({
+        status: true,
+        type: "failure",
+        message: "Something went wrong!",
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -14,7 +39,7 @@ const Home = () => {
         value={playerName}
         handleValueChange={setPlayerName}
       />
-      <CustomButton title="Register" handleClick={() => {}} restStyles="mt-6" />
+      <CustomButton title="Register" handleClick={handleClick} restStyles="mt-6" />
     </div>
   );
 };
@@ -25,6 +50,6 @@ export default PageHOC(
     Welcome to Avax Gods <br /> a Web3 NFT Card Game
   </>,
   <>
-    Connect your wallet to start playing <br /> the ultimate WEb3 Battle Card Game
+    Connect your wallet to start playing <br /> the ultimate Web3 Battle Card Game
   </>
 );
